@@ -1,0 +1,1138 @@
+CCS PCM C Compiler, Version 5.015, 5967               27-may.-18 16:47
+
+               Filename:   F:\Documentos\Projects\Proyectos\On-Off UPS\source2.lst
+
+               ROM used:   837 words (20%)
+                           Largest free fragment is 2048
+               RAM used:   34 (18%) at main() level
+                           48 (25%) worst case
+               Stack used: 4 locations (3 in main + 1 for interrupts)
+               Stack size: 8
+
+*
+0000:  MOVLW  01
+0001:  MOVWF  0A
+0002:  GOTO   1E7
+0003:  NOP
+0004:  MOVWF  7F
+0005:  SWAPF  03,W
+0006:  CLRF   03
+0007:  MOVWF  25
+0008:  MOVF   7F,W
+0009:  MOVWF  24
+000A:  MOVF   0A,W
+000B:  MOVWF  2B
+000C:  CLRF   0A
+000D:  SWAPF  24,F
+000E:  MOVF   04,W
+000F:  MOVWF  26
+0010:  MOVF   20,W
+0011:  MOVWF  27
+0012:  MOVF   21,W
+0013:  MOVWF  28
+0014:  MOVF   22,W
+0015:  MOVWF  29
+0016:  MOVF   23,W
+0017:  MOVWF  2A
+0018:  BCF    03.7
+0019:  BCF    03.5
+001A:  BTFSS  0B.4
+001B:  GOTO   01E
+001C:  BTFSC  0B.1
+001D:  GOTO   033
+001E:  BTFSS  0B.5
+001F:  GOTO   022
+0020:  BTFSC  0B.2
+0021:  GOTO   035
+0022:  MOVF   26,W
+0023:  MOVWF  04
+0024:  MOVF   27,W
+0025:  MOVWF  20
+0026:  MOVF   28,W
+0027:  MOVWF  21
+0028:  MOVF   29,W
+0029:  MOVWF  22
+002A:  MOVF   2A,W
+002B:  MOVWF  23
+002C:  MOVF   2B,W
+002D:  MOVWF  0A
+002E:  SWAPF  25,W
+002F:  MOVWF  03
+0030:  SWAPF  7F,F
+0031:  SWAPF  7F,W
+0032:  RETFIE
+0033:  BCF    0A.3
+0034:  GOTO   037
+0035:  BCF    0A.3
+0036:  GOTO   06D
+.................... ///////////////////////////////////////////////////////////////////////////////// 
+.................... //                                                                             // 
+.................... //                             Control de Alimentaci贸n AC                     // 
+.................... //                Centro de Investigaci贸n y Tecnolog铆a Electr贸nica          // 
+.................... //                        (c) 2018 Luis Gabriel Lujano Chinchilla              // 
+.................... //                                                                             // 
+.................... ///////////////////////////////////////////////////////////////////////////////// 
+.................... //                                                                             // 
+.................... //             uControlador: PIC16F873A            Lenguaje: CCS C              // 
+.................... //                      Xtal: 4MHz                                             // 
+.................... //                                                                             // 
+.................... ///////////////////////////////////////////////////////////////////////////////// 
+.................... #include <16F873A.h> 
+.................... //////////// Standard Header file for the PIC16F873A device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC16F873A 
+*
+0085:  MOVF   41,W
+0086:  BTFSC  03.2
+0087:  GOTO   0F5
+0088:  MOVWF  49
+0089:  MOVF   45,W
+008A:  BTFSC  03.2
+008B:  GOTO   0F5
+008C:  ADDWF  49,F
+008D:  BTFSC  03.0
+008E:  GOTO   096
+008F:  MOVLW  7F
+0090:  SUBWF  49,F
+0091:  BTFSS  03.0
+0092:  GOTO   0F5
+0093:  BTFSC  03.2
+0094:  GOTO   0F5
+0095:  GOTO   09A
+0096:  MOVLW  81
+0097:  ADDWF  49,F
+0098:  BTFSC  03.0
+0099:  GOTO   0F5
+009A:  MOVF   49,W
+009B:  MOVWF  20
+009C:  CLRF   21
+009D:  CLRF   22
+009E:  CLRF   23
+009F:  MOVF   42,W
+00A0:  MOVWF  4D
+00A1:  BSF    4D.7
+00A2:  MOVF   43,W
+00A3:  MOVWF  4C
+00A4:  MOVF   44,W
+00A5:  MOVWF  4B
+00A6:  MOVLW  18
+00A7:  MOVWF  49
+00A8:  CLRF   4A
+00A9:  BTFSS  4B.0
+00AA:  GOTO   0C3
+00AB:  MOVF   48,W
+00AC:  ADDWF  23,F
+00AD:  BTFSS  03.0
+00AE:  GOTO   0B5
+00AF:  INCF   22,F
+00B0:  BTFSS  03.2
+00B1:  GOTO   0B5
+00B2:  INCF   21,F
+00B3:  BTFSC  03.2
+00B4:  BSF    4A.7
+00B5:  MOVF   47,W
+00B6:  ADDWF  22,F
+00B7:  BTFSS  03.0
+00B8:  GOTO   0BC
+00B9:  INCF   21,F
+00BA:  BTFSC  03.2
+00BB:  BSF    4A.7
+00BC:  MOVF   46,W
+00BD:  MOVWF  43
+00BE:  BSF    43.7
+00BF:  MOVF   43,W
+00C0:  ADDWF  21,F
+00C1:  BTFSC  03.0
+00C2:  BSF    4A.7
+00C3:  RLF    4A,F
+00C4:  RRF    21,F
+00C5:  RRF    22,F
+00C6:  RRF    23,F
+00C7:  RRF    4D,F
+00C8:  RRF    4C,F
+00C9:  RRF    4B,F
+00CA:  BCF    03.0
+00CB:  DECFSZ 49,F
+00CC:  GOTO   0A8
+00CD:  MOVLW  01
+00CE:  ADDWF  20,F
+00CF:  BTFSC  03.0
+00D0:  GOTO   0F5
+00D1:  BTFSC  21.7
+00D2:  GOTO   0DA
+00D3:  RLF    4D,F
+00D4:  RLF    23,F
+00D5:  RLF    22,F
+00D6:  RLF    21,F
+00D7:  DECF   20,F
+00D8:  BTFSC  03.2
+00D9:  GOTO   0F5
+00DA:  BTFSS  4D.7
+00DB:  GOTO   0EB
+00DC:  INCF   23,F
+00DD:  BTFSS  03.2
+00DE:  GOTO   0EB
+00DF:  INCF   22,F
+00E0:  BTFSS  03.2
+00E1:  GOTO   0EB
+00E2:  INCF   21,F
+00E3:  BTFSS  03.2
+00E4:  GOTO   0EB
+00E5:  RRF    21,F
+00E6:  RRF    22,F
+00E7:  RRF    23,F
+00E8:  INCF   20,F
+00E9:  BTFSC  03.2
+00EA:  GOTO   0F5
+00EB:  MOVF   42,W
+00EC:  MOVWF  4A
+00ED:  MOVF   46,W
+00EE:  XORWF  4A,F
+00EF:  BTFSS  4A.7
+00F0:  GOTO   0F3
+00F1:  BSF    21.7
+00F2:  GOTO   0F9
+00F3:  BCF    21.7
+00F4:  GOTO   0F9
+00F5:  CLRF   20
+00F6:  CLRF   21
+00F7:  CLRF   22
+00F8:  CLRF   23
+00F9:  RETURN
+*
+0102:  MOVLW  B6
+0103:  MOVWF  20
+0104:  CLRF   23
+0105:  CLRF   22
+0106:  CLRF   21
+0107:  MOVF   3E,W
+0108:  IORWF  3F,W
+0109:  IORWF  40,W
+010A:  IORWF  41,W
+010B:  BTFSS  03.2
+010C:  GOTO   10F
+010D:  CLRF   20
+010E:  GOTO   11C
+010F:  BCF    03.0
+0110:  BTFSC  21.7
+0111:  GOTO   11B
+0112:  RLF    3E,F
+0113:  RLF    3F,F
+0114:  RLF    40,F
+0115:  RLF    41,F
+0116:  RLF    23,F
+0117:  RLF    22,F
+0118:  RLF    21,F
+0119:  DECFSZ 20,F
+011A:  GOTO   10F
+011B:  BCF    21.7
+*
+013E:  MOVLW  8E
+013F:  MOVWF  20
+0140:  MOVF   42,W
+0141:  MOVWF  21
+0142:  MOVF   41,W
+0143:  MOVWF  22
+0144:  CLRF   23
+0145:  MOVF   21,F
+0146:  BTFSS  03.2
+0147:  GOTO   152
+0148:  MOVF   22,W
+0149:  MOVWF  21
+014A:  CLRF   22
+014B:  MOVLW  08
+014C:  SUBWF  20,F
+014D:  MOVF   21,F
+014E:  BTFSS  03.2
+014F:  GOTO   152
+0150:  CLRF   20
+0151:  GOTO   15A
+0152:  BCF    03.0
+0153:  BTFSC  21.7
+0154:  GOTO   159
+0155:  RLF    22,F
+0156:  RLF    21,F
+0157:  DECF   20,F
+0158:  GOTO   152
+0159:  BCF    21.7
+015A:  BCF    0A.3
+015B:  GOTO   24A (RETURN)
+015C:  MOVF   43,W
+015D:  MOVWF  4A
+015E:  MOVF   47,W
+015F:  XORWF  4A,F
+0160:  BTFSS  4A.7
+0161:  GOTO   167
+0162:  BCF    03.2
+0163:  BCF    03.0
+0164:  BTFSC  43.7
+0165:  BSF    03.0
+0166:  GOTO   19A
+0167:  MOVF   43,W
+0168:  MOVWF  4A
+0169:  MOVF   46,W
+016A:  MOVWF  4B
+016B:  MOVF   42,W
+016C:  SUBWF  4B,F
+016D:  BTFSC  03.2
+016E:  GOTO   175
+016F:  BTFSS  4A.7
+0170:  GOTO   19A
+0171:  MOVF   03,W
+0172:  XORLW  01
+0173:  MOVWF  03
+0174:  GOTO   19A
+0175:  MOVF   47,W
+0176:  MOVWF  4B
+0177:  MOVF   43,W
+0178:  SUBWF  4B,F
+0179:  BTFSC  03.2
+017A:  GOTO   181
+017B:  BTFSS  4A.7
+017C:  GOTO   19A
+017D:  MOVF   03,W
+017E:  XORLW  01
+017F:  MOVWF  03
+0180:  GOTO   19A
+0181:  MOVF   48,W
+0182:  MOVWF  4B
+0183:  MOVF   44,W
+0184:  SUBWF  4B,F
+0185:  BTFSC  03.2
+0186:  GOTO   18D
+0187:  BTFSS  4A.7
+0188:  GOTO   19A
+0189:  MOVF   03,W
+018A:  XORLW  01
+018B:  MOVWF  03
+018C:  GOTO   19A
+018D:  MOVF   49,W
+018E:  MOVWF  4B
+018F:  MOVF   45,W
+0190:  SUBWF  4B,F
+0191:  BTFSC  03.2
+0192:  GOTO   199
+0193:  BTFSS  4A.7
+0194:  GOTO   19A
+0195:  MOVF   03,W
+0196:  XORLW  01
+0197:  MOVWF  03
+0198:  GOTO   19A
+0199:  BCF    03.0
+019A:  RETURN
+*
+033A:  BSF    0A.0
+033B:  BSF    0A.1
+033C:  BCF    0A.2
+033D:  ADDWF  02,F
+033E:  GOTO   22E
+033F:  GOTO   338
+0340:  GOTO   21D
+0341:  GOTO   2B0
+0342:  GOTO   21C
+0343:  GOTO   279
+0344:  GOTO   2E3
+....................  
+.................... #list 
+....................  
+.................... #fuses XT, NOWDT 
+.................... #use delay (clock = 4000000) 
+.................... #use standard_io(b) 
+....................  
+....................  // Pines 
+.................... #define CONTROL     PIN_B4    //// Control del rel茅 
+.................... #define Green_LED   PIN_B2    //// Indicador de sistema encendido 
+.................... #define Red_LED     PIN_B3    //// Indicador de suspensi贸n de corriente 
+.................... #define Pulsador    PIN_B0    //// Pulsador de encendido y de ajuste de temporizaci贸n 
+....................  
+.................... // Variables globales 
+.................... int32 time_H ; // Variable configurable para el temporizador 
+.................... float time_temp; // Variable temporal para calculos en punto flotante 
+.................... int1 boton_activado = 0; 
+.................... int8 time_on = 1; // tiempo en minituos en el que el dispositivo permanece activo 
+.................... int8 last_time_on = 1; 
+.................... float tiempo_activo ; 
+....................  
+.................... // states del sistema 
+.................... int8 state; 
+.................... int8 last_state; 
+.................... int1 state_chg; // el estado del sistema ha cambiado 
+.................... #define CURRENT_ON 1 // El dispositivo cuenta hasta el tiempo configurado y se apaga 
+.................... #define ON 2 
+.................... #define OFF 3 
+.................... #define CONFIG 4 // Cambio de estado en funcion de la duracion del pulso 
+.................... #define WAIT 5 
+.................... #define CURRENT_OFF 6 // El dispositivo cuenta hasta el tiempo configurado y se apaga 
+.................... #define CONFIG_TEMP 7 //  Ajuste de temporizaci髇 echa por el usuario. 
+....................  
+....................  
+.................... /// Interrupciones /// 
+.................... #INT_EXT 
+.................... void funcion_ext_int(){ 
+.................... output_toggle(PIN_B5); 
+*
+0037:  BSF    03.5
+0038:  BCF    06.5
+0039:  MOVLW  20
+003A:  BCF    03.5
+003B:  XORWF  06,F
+....................     if (boton_activado == 0){ //Primera interrupci髇 por flanco de subida 
+003C:  BTFSC  34.0
+003D:  GOTO   06A
+....................         set_timer0(0); 
+003E:  CLRF   01
+....................         while(get_timer0()< 150){}; // Esperar un tiempo  
+003F:  MOVF   01,W
+0040:  SUBLW  95
+0041:  BTFSC  03.0
+0042:  GOTO   03F
+....................        	if(input(Pulsador) == 1 ) { // Si el pulsador esta todavia activo, 
+0043:  BSF    03.5
+0044:  BSF    06.0
+0045:  BCF    03.5
+0046:  BTFSS  06.0
+0047:  GOTO   06A
+....................             if(state == WAIT){ 
+0048:  MOVF   3B,W
+0049:  SUBLW  05
+004A:  BTFSS  03.2
+004B:  GOTO   054
+....................                 state = CURRENT_ON; // Cambiar directamente el estado 
+004C:  MOVLW  01
+004D:  MOVWF  3B
+....................                 output_toggle(PIN_B6); 
+004E:  BSF    03.5
+004F:  BCF    06.6
+0050:  MOVLW  40
+0051:  BCF    03.5
+0052:  XORWF  06,F
+....................             } 
+0053:  GOTO   06A
+....................             else if( (state == CURRENT_ON)  | (state == CURRENT_OFF)){ 
+0054:  DECFSZ 3B,W
+0055:  GOTO   057
+0056:  GOTO   059
+0057:  MOVLW  00
+0058:  GOTO   05A
+0059:  MOVLW  01
+005A:  MOVWF  4E
+005B:  MOVF   3B,W
+005C:  SUBLW  06
+005D:  BTFSC  03.2
+005E:  GOTO   061
+005F:  MOVLW  00
+0060:  GOTO   062
+0061:  MOVLW  01
+0062:  IORWF  4E,W
+0063:  BTFSC  03.2
+0064:  GOTO   069
+....................                 state = CONFIG; 
+0065:  MOVLW  04
+0066:  MOVWF  3B
+....................                 boton_activado = 1; 
+0067:  BSF    34.0
+....................             } 
+0068:  GOTO   06A
+....................             else{ // Estado config o config temp 
+....................                 boton_activado = 1; // Analizar con la funcion medir pulso  
+0069:  BSF    34.0
+....................             } 
+....................              
+....................         } 
+....................     } 
+....................  
+.................... } 
+....................  
+....................  
+....................  
+006A:  BCF    0B.1
+006B:  BCF    0A.3
+006C:  GOTO   022
+.................... #INT_TIMER0 
+.................... void timer0(){ 
+....................  time_H= time_H+1; 
+006D:  MOVLW  01
+006E:  ADDWF  2C,F
+006F:  MOVLW  00
+0070:  BTFSC  03.0
+0071:  MOVLW  01
+0072:  ADDWF  2D,F
+0073:  MOVLW  00
+0074:  BTFSC  03.0
+0075:  MOVLW  01
+0076:  ADDWF  2E,F
+0077:  MOVLW  00
+0078:  BTFSC  03.0
+0079:  MOVLW  01
+007A:  ADDWF  2F,F
+....................  set_timer0(0); // Reiniciar timer 
+007B:  CLRF   01
+007C:  BCF    0B.2
+007D:  BCF    0A.3
+007E:  GOTO   022
+.................... } 
+....................  
+....................  
+.................... float real_time_s(); 
+.................... float real_time_s(); 
+.................... float real_time_m(); 
+.................... void reset_timer(); 
+.................... float medir_pulso(); 
+....................  
+.................... /// MAIN /// 
+.................... void main () 
+*
+01E7:  MOVF   03,W
+01E8:  ANDLW  1F
+01E9:  MOVWF  03
+01EA:  BCF    34.0
+01EB:  MOVLW  01
+01EC:  MOVWF  35
+01ED:  MOVWF  36
+01EE:  BSF    03.5
+01EF:  BSF    1F.0
+01F0:  BSF    1F.1
+01F1:  BSF    1F.2
+01F2:  BCF    1F.3
+01F3:  MOVLW  07
+01F4:  MOVWF  1C
+.................... { 
+....................      
+....................   // Inicializacion 
+....................      // Configuracion de Timer 
+....................     setup_timer_0 (T0_DIV_256 ); // Modo= oscilador interno 4MHz, cuenta cada 8us 
+01F5:  MOVF   01,W
+01F6:  ANDLW  C0
+01F7:  IORLW  07
+01F8:  MOVWF  01
+....................     set_timer0(0); // Reiniciar timer 
+01F9:  BCF    03.5
+01FA:  CLRF   01
+....................     enable_interrupts(INT_TIMER0); 
+01FB:  BSF    0B.5
+....................       // Configuracion de la interrupci髇 externa 
+....................     ext_int_edge(0, L_TO_H);    // Configurar para flanco de subida 
+01FC:  BSF    03.5
+01FD:  BSF    01.6
+....................     enable_interrupts(int_ext); // Habilitaci髇 de interrupcion por RB0 
+01FE:  BCF    03.5
+01FF:  BSF    0B.4
+....................      
+....................     enable_interrupts(global); 
+0200:  MOVLW  C0
+0201:  IORWF  0B,F
+....................     
+....................     output_low(CONTROL); // cargar 
+0202:  BSF    03.5
+0203:  BCF    06.4
+0204:  BCF    03.5
+0205:  BCF    06.4
+....................     output_high(Red_LED); // cargar 
+0206:  BSF    03.5
+0207:  BCF    06.3
+0208:  BCF    03.5
+0209:  BSF    06.3
+....................     output_low(Green_LED); // cargar 
+020A:  BSF    03.5
+020B:  BCF    06.2
+020C:  BCF    03.5
+020D:  BCF    06.2
+....................     input(Pulsador); 
+020E:  BSF    03.5
+020F:  BSF    06.0
+....................      
+....................     boton_activado = 0; 
+0210:  BCF    03.5
+0211:  BCF    34.0
+....................      
+....................     state = OFF; 
+0212:  MOVLW  03
+0213:  MOVWF  3B
+....................     last_state = OFF; 
+0214:  MOVWF  3C
+....................     //output_low(PIN_B4); 
+....................          
+....................     while(1){ 
+....................         // Comienza el sistema apagado 
+....................         switch(state){ 
+0215:  MOVLW  01
+0216:  SUBWF  3B,W
+0217:  ADDLW  F9
+0218:  BTFSC  03.0
+0219:  GOTO   338
+021A:  ADDLW  07
+021B:  GOTO   33A
+....................             case WAIT: // No hacer nada 
+....................                 break; 
+021C:  GOTO   338
+....................                  
+....................             case OFF: 
+....................                 last_state = OFF; 
+021D:  MOVLW  03
+021E:  MOVWF  3C
+....................                 output_low(CONTROL); // Desactivar rele 
+021F:  BSF    03.5
+0220:  BCF    06.4
+0221:  BCF    03.5
+0222:  BCF    06.4
+....................                 output_low(Red_LED);  
+0223:  BSF    03.5
+0224:  BCF    06.3
+0225:  BCF    03.5
+0226:  BCF    06.3
+....................                 output_low(Green_LED);  
+0227:  BSF    03.5
+0228:  BCF    06.2
+0229:  BCF    03.5
+022A:  BCF    06.2
+....................                 state = WAIT; // Esperar a que se cambie de estado 
+022B:  MOVLW  05
+022C:  MOVWF  3B
+....................                 break; 
+022D:  GOTO   338
+....................                  
+....................            case CURRENT_ON: 
+....................                 last_state = CURRENT_ON; 
+022E:  MOVLW  01
+022F:  MOVWF  3C
+....................                 reset_timer(); 
+0230:  CALL   07F
+....................                 output_high(CONTROL);  // Activar rele 
+0231:  BSF    03.5
+0232:  BCF    06.4
+0233:  BCF    03.5
+0234:  BSF    06.4
+....................                 output_low(Red_LED);  
+0235:  BSF    03.5
+0236:  BCF    06.3
+0237:  BCF    03.5
+0238:  BCF    06.3
+....................                 output_high(Green_LED); 
+0239:  BSF    03.5
+023A:  BCF    06.2
+023B:  BCF    03.5
+023C:  BSF    06.2
+....................                 while(real_time_s() < time_on*3.0){ 
+023D:  CALL   0FA
+023E:  MOVF   23,W
+023F:  MOVWF  40
+0240:  MOVF   22,W
+0241:  MOVWF  3F
+0242:  MOVF   21,W
+0243:  MOVWF  3E
+0244:  MOVF   20,W
+0245:  MOVWF  3D
+0246:  CLRF   42
+0247:  MOVF   35,W
+0248:  MOVWF  41
+0249:  GOTO   13E
+024A:  MOVF   23,W
+024B:  MOVWF  44
+024C:  MOVF   22,W
+024D:  MOVWF  43
+024E:  MOVF   21,W
+024F:  MOVWF  42
+0250:  MOVF   20,W
+0251:  MOVWF  41
+0252:  CLRF   48
+0253:  CLRF   47
+0254:  MOVLW  40
+0255:  MOVWF  46
+0256:  MOVLW  80
+0257:  MOVWF  45
+0258:  CALL   085
+0259:  MOVF   40,W
+025A:  MOVWF  45
+025B:  MOVF   3F,W
+025C:  MOVWF  44
+025D:  MOVF   3E,W
+025E:  MOVWF  43
+025F:  MOVF   3D,W
+0260:  MOVWF  42
+0261:  MOVF   23,W
+0262:  MOVWF  49
+0263:  MOVF   22,W
+0264:  MOVWF  48
+0265:  MOVF   21,W
+0266:  MOVWF  47
+0267:  MOVF   20,W
+0268:  MOVWF  46
+0269:  CALL   15C
+026A:  BTFSS  03.0
+026B:  GOTO   272
+....................                     if(state!= CURRENT_ON){ 
+026C:  DECFSZ 3B,W
+026D:  GOTO   26F
+026E:  GOTO   271
+....................                     state_chg = 1; 
+026F:  BSF    34.1
+....................                     break; 
+0270:  GOTO   272
+....................                     } // interrumpir estado, si este es cambiado 
+0271:  GOTO   23D
+....................                 } // Esperar el tiempo configurado. 
+....................  
+....................                 if (state_chg != 1){ // Si no se cambio el estado, volver al ciclo periodico 
+0272:  BTFSC  34.1
+0273:  GOTO   277
+....................                  state = CURRENT_OFF; 
+0274:  MOVLW  06
+0275:  MOVWF  3B
+....................                 } 
+0276:  GOTO   278
+....................                 else{ 
+....................                    state_chg = 0; 
+0277:  BCF    34.1
+....................                 } 
+....................                 break; 
+0278:  GOTO   338
+....................             case CURRENT_OFF: 
+....................                 last_state = CURRENT_OFF; 
+0279:  MOVLW  06
+027A:  MOVWF  3C
+....................                 reset_timer(); 
+027B:  CALL   07F
+....................                 output_low(CONTROL); // Desactivar rele 
+027C:  BSF    03.5
+027D:  BCF    06.4
+027E:  BCF    03.5
+027F:  BCF    06.4
+....................                 output_high(Red_LED);  
+0280:  BSF    03.5
+0281:  BCF    06.3
+0282:  BCF    03.5
+0283:  BSF    06.3
+....................                 output_high(Green_LED);  
+0284:  BSF    03.5
+0285:  BCF    06.2
+0286:  BCF    03.5
+0287:  BSF    06.2
+....................                 while(real_time_s() < 5.0){ // Se espera 10 segundos 
+0288:  CALL   0FA
+0289:  MOVF   23,W
+028A:  MOVWF  40
+028B:  MOVF   22,W
+028C:  MOVWF  3F
+028D:  MOVF   21,W
+028E:  MOVWF  3E
+028F:  MOVF   20,W
+0290:  MOVWF  3D
+0291:  MOVF   40,W
+0292:  MOVWF  45
+0293:  MOVF   3F,W
+0294:  MOVWF  44
+0295:  MOVF   3E,W
+0296:  MOVWF  43
+0297:  MOVF   3D,W
+0298:  MOVWF  42
+0299:  CLRF   49
+029A:  CLRF   48
+029B:  MOVLW  20
+029C:  MOVWF  47
+029D:  MOVLW  81
+029E:  MOVWF  46
+029F:  CALL   15C
+02A0:  BTFSS  03.0
+02A1:  GOTO   2A9
+....................                     if(state !=  CURRENT_OFF){ 
+02A2:  MOVF   3B,W
+02A3:  SUBLW  06
+02A4:  BTFSC  03.2
+02A5:  GOTO   2A8
+....................                         state_chg = 1; 
+02A6:  BSF    34.1
+....................                         break; 
+02A7:  GOTO   2A9
+....................                     } 
+02A8:  GOTO   288
+....................                 } 
+....................  
+....................                 if (state_chg != 1){ // Si no se cambio el estado, volver al ciclo periodico 
+02A9:  BTFSC  34.1
+02AA:  GOTO   2AE
+....................                  state = CURRENT_ON; 
+02AB:  MOVLW  01
+02AC:  MOVWF  3B
+....................                   
+....................                 } 
+02AD:  GOTO   2AF
+....................                 else{ 
+....................                    state_chg = 0; 
+02AE:  BCF    34.1
+....................                 } 
+....................  
+....................                 break; 
+02AF:  GOTO   338
+....................  
+....................            case CONFIG: // Estado en el que se mide el tiempo pulsado y se cambia el estado del sistema  
+....................                 // Medir pulso 
+....................                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos 
+02B0:  CALL   19B
+02B1:  MOVF   23,W
+02B2:  MOVWF  3A
+02B3:  MOVF   22,W
+02B4:  MOVWF  39
+02B5:  MOVF   21,W
+02B6:  MOVWF  38
+02B7:  MOVF   20,W
+02B8:  MOVWF  37
+....................                 if (tiempo_activo < 2.0){ 
+02B9:  MOVF   3A,W
+02BA:  MOVWF  45
+02BB:  MOVF   39,W
+02BC:  MOVWF  44
+02BD:  MOVF   38,W
+02BE:  MOVWF  43
+02BF:  MOVF   37,W
+02C0:  MOVWF  42
+02C1:  CLRF   49
+02C2:  CLRF   48
+02C3:  CLRF   47
+02C4:  MOVLW  80
+02C5:  MOVWF  46
+02C6:  CALL   15C
+02C7:  BTFSS  03.0
+02C8:  GOTO   2DD
+....................                     if ((last_state == CURRENT_ON ) | (last_state== CURRENT_OFF)){ 
+02C9:  DECFSZ 3C,W
+02CA:  GOTO   2CC
+02CB:  GOTO   2CE
+02CC:  MOVLW  00
+02CD:  GOTO   2CF
+02CE:  MOVLW  01
+02CF:  MOVWF  3D
+02D0:  MOVF   3C,W
+02D1:  SUBLW  06
+02D2:  BTFSC  03.2
+02D3:  GOTO   2D6
+02D4:  MOVLW  00
+02D5:  GOTO   2D7
+02D6:  MOVLW  01
+02D7:  IORWF  3D,W
+02D8:  BTFSC  03.2
+02D9:  GOTO   2DC
+....................                         state = OFF; // Apagar el dispositivo 
+02DA:  MOVLW  03
+02DB:  MOVWF  3B
+....................                     } 
+....................  
+....................                 } 
+02DC:  GOTO   2E2
+....................                 else{ // Si se pulsa durante mas de 2 segundos, entrar a la configuracion 
+....................                     state = CONFIG_TEMP; 
+02DD:  MOVLW  07
+02DE:  MOVWF  3B
+....................                     last_time_on = time_on; 
+02DF:  MOVF   35,W
+02E0:  MOVWF  36
+....................                     time_on = 0; // Reiniciar el contador de pulsos 
+02E1:  CLRF   35
+....................                 } 
+....................  
+....................                 break; 
+02E2:  GOTO   338
+....................              case CONFIG_TEMP: 
+....................                 output_high(Red_LED);  
+02E3:  BSF    03.5
+02E4:  BCF    06.3
+02E5:  BCF    03.5
+02E6:  BSF    06.3
+....................                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos 
+02E7:  CALL   19B
+02E8:  MOVF   23,W
+02E9:  MOVWF  3A
+02EA:  MOVF   22,W
+02EB:  MOVWF  39
+02EC:  MOVF   21,W
+02ED:  MOVWF  38
+02EE:  MOVF   20,W
+02EF:  MOVWF  37
+....................                 if (tiempo_activo == 0.0 ) { // Si se dejo de pulsar durante 10 segundos  
+02F0:  MOVF   3A,W
+02F1:  MOVWF  45
+02F2:  MOVF   39,W
+02F3:  MOVWF  44
+02F4:  MOVF   38,W
+02F5:  MOVWF  43
+02F6:  MOVF   37,W
+02F7:  MOVWF  42
+02F8:  CLRF   49
+02F9:  CLRF   48
+02FA:  CLRF   47
+02FB:  CLRF   46
+02FC:  CALL   15C
+02FD:  BTFSS  03.2
+02FE:  GOTO   307
+....................                     if (time_on == 0){  // nunca se pulso 
+02FF:  MOVF   35,F
+0300:  BTFSS  03.2
+0301:  GOTO   304
+....................                         time_on = last_time_on; // Tomar la ultima configuracion 
+0302:  MOVF   36,W
+0303:  MOVWF  35
+....................                          
+....................                     } 
+....................                     state  = CURRENT_ON; // De lo contrario se toma el time_on hasta ahora configurado 
+0304:  MOVLW  01
+0305:  MOVWF  3B
+....................                      
+....................                 } 
+0306:  GOTO   338
+....................                 else if (tiempo_activo < 2.0 & tiempo_activo >0.0){ 
+0307:  MOVF   3A,W
+0308:  MOVWF  45
+0309:  MOVF   39,W
+030A:  MOVWF  44
+030B:  MOVF   38,W
+030C:  MOVWF  43
+030D:  MOVF   37,W
+030E:  MOVWF  42
+030F:  CLRF   49
+0310:  CLRF   48
+0311:  CLRF   47
+0312:  MOVLW  80
+0313:  MOVWF  46
+0314:  CALL   15C
+0315:  MOVLW  00
+0316:  BTFSC  03.0
+0317:  MOVLW  01
+0318:  MOVWF  3D
+0319:  CLRF   45
+031A:  CLRF   44
+031B:  CLRF   43
+031C:  CLRF   42
+031D:  MOVF   3A,W
+031E:  MOVWF  49
+031F:  MOVF   39,W
+0320:  MOVWF  48
+0321:  MOVF   38,W
+0322:  MOVWF  47
+0323:  MOVF   37,W
+0324:  MOVWF  46
+0325:  CALL   15C
+0326:  MOVLW  00
+0327:  BTFSC  03.0
+0328:  MOVLW  01
+0329:  ANDWF  3D,W
+032A:  BTFSC  03.2
+032B:  GOTO   331
+....................                     time_on = time_on +1; 
+032C:  MOVLW  01
+032D:  ADDWF  35,F
+....................                     state = CONFIG_TEMP; // Esperar el siguiente pulso 
+032E:  MOVLW  07
+032F:  MOVWF  3B
+....................                 } 
+0330:  GOTO   338
+....................                 else{ // Si el tiempo pulsado es mayor 
+....................                     if (time_on == 0){ 
+0331:  MOVF   35,F
+0332:  BTFSS  03.2
+0333:  GOTO   336
+....................                         time_on = last_time_on; // Por defecto, si no se configura nada 
+0334:  MOVF   36,W
+0335:  MOVWF  35
+....................                                               // Se toma la ultima configuraci髇 tomada 
+....................                     } 
+....................                     state  = OFF; 
+0336:  MOVLW  03
+0337:  MOVWF  3B
+....................  
+....................                 } 
+....................  
+....................                 break; 
+....................  
+....................         } 
+0338:  GOTO   215
+....................    
+....................       
+....................        
+....................     } 
+....................    
+....................  
+....................     
+.................... } 
+....................  
+0339:  SLEEP
+.................... float real_time_s(){ 
+....................     time_temp = time_H*0.065536;// 65536.0/1000000.0 
+*
+00FA:  MOVF   2F,W
+00FB:  MOVWF  41
+00FC:  MOVF   2E,W
+00FD:  MOVWF  40
+00FE:  MOVF   2D,W
+00FF:  MOVWF  3F
+0100:  MOVF   2C,W
+0101:  MOVWF  3E
+*
+011C:  MOVF   23,W
+011D:  MOVWF  44
+011E:  MOVF   22,W
+011F:  MOVWF  43
+0120:  MOVF   21,W
+0121:  MOVWF  42
+0122:  MOVF   20,W
+0123:  MOVWF  41
+0124:  MOVLW  BD
+0125:  MOVWF  48
+0126:  MOVLW  37
+0127:  MOVWF  47
+0128:  MOVLW  06
+0129:  MOVWF  46
+012A:  MOVLW  7B
+012B:  MOVWF  45
+012C:  CALL   085
+012D:  MOVF   23,W
+012E:  MOVWF  33
+012F:  MOVF   22,W
+0130:  MOVWF  32
+0131:  MOVF   21,W
+0132:  MOVWF  31
+0133:  MOVF   20,W
+0134:  MOVWF  30
+....................     return time_temp; 
+0135:  MOVF   30,W
+0136:  MOVWF  20
+0137:  MOVF   31,W
+0138:  MOVWF  21
+0139:  MOVF   32,W
+013A:  MOVWF  22
+013B:  MOVF   33,W
+013C:  MOVWF  23
+013D:  RETURN
+.................... } 
+....................  
+.................... float real_time_m(){  // Tiempo en minutos 
+....................     time_temp= real_time_s()/60.0; 
+....................     return time_temp; 
+.................... } 
+....................     
+.................... void reset_timer(){ 
+....................      time_H = 0; // Reiniciar el contador 
+*
+007F:  CLRF   2F
+0080:  CLRF   2E
+0081:  CLRF   2D
+0082:  CLRF   2C
+....................      set_timer0(0); // Reiniciar timer 
+0083:  CLRF   01
+0084:  RETURN
+.................... } 
+....................  
+.................... float medir_pulso(){ 
+*
+019B:  BSF    3D.0
+....................     int1 tiempo_agotado = 1; 
+....................     reset_timer(); // Reiniciar timer 
+019C:  CALL   07F
+....................     while(real_time_s()< 10.0)  // Se espera 10 segundos a que se introduzca un pulso 
+019D:  CALL   0FA
+019E:  MOVF   23,W
+019F:  MOVWF  41
+01A0:  MOVF   22,W
+01A1:  MOVWF  40
+01A2:  MOVF   21,W
+01A3:  MOVWF  3F
+01A4:  MOVF   20,W
+01A5:  MOVWF  3E
+01A6:  MOVF   41,W
+01A7:  MOVWF  45
+01A8:  MOVF   40,W
+01A9:  MOVWF  44
+01AA:  MOVF   3F,W
+01AB:  MOVWF  43
+01AC:  MOVF   3E,W
+01AD:  MOVWF  42
+01AE:  CLRF   49
+01AF:  CLRF   48
+01B0:  MOVLW  20
+01B1:  MOVWF  47
+01B2:  MOVLW  82
+01B3:  MOVWF  46
+01B4:  CALL   15C
+01B5:  BTFSS  03.0
+01B6:  GOTO   1BD
+....................     { 
+....................         if (boton_activado == 1){ 
+01B7:  BTFSS  34.0
+01B8:  GOTO   1BC
+....................             tiempo_agotado = 0; 
+01B9:  BCF    3D.0
+....................             boton_activado = 0; // resetear el evento 
+01BA:  BCF    34.0
+....................             break; 
+01BB:  GOTO   1BD
+....................         } 
+01BC:  GOTO   19D
+....................     } 
+....................       
+....................     if (tiempo_agotado == 1) // Si pasaron 10 segundos sin pulsar el interruptor 
+01BD:  BTFSS  3D.0
+01BE:  GOTO   1C5
+....................     { 
+....................         return 0.0; // Nunca se pulso 
+01BF:  CLRF   20
+01C0:  CLRF   21
+01C1:  CLRF   22
+01C2:  CLRF   23
+01C3:  GOTO   1E6
+....................     } 
+01C4:  GOTO   1E6
+....................     else{ // Se pulso 
+....................        while(real_time_s()< 5.0){ // Pulso de duracion maxima de 5 segundos 
+01C5:  CALL   0FA
+01C6:  MOVF   23,W
+01C7:  MOVWF  41
+01C8:  MOVF   22,W
+01C9:  MOVWF  40
+01CA:  MOVF   21,W
+01CB:  MOVWF  3F
+01CC:  MOVF   20,W
+01CD:  MOVWF  3E
+01CE:  MOVF   41,W
+01CF:  MOVWF  45
+01D0:  MOVF   40,W
+01D1:  MOVWF  44
+01D2:  MOVF   3F,W
+01D3:  MOVWF  43
+01D4:  MOVF   3E,W
+01D5:  MOVWF  42
+01D6:  CLRF   49
+01D7:  CLRF   48
+01D8:  MOVLW  20
+01D9:  MOVWF  47
+01DA:  MOVLW  81
+01DB:  MOVWF  46
+01DC:  CALL   15C
+01DD:  BTFSS  03.0
+01DE:  GOTO   1E5
+....................           if (input(Pulsador) == 0){ // esperar el flanco de bajada del pulsador 
+01DF:  BSF    03.5
+01E0:  BSF    06.0
+01E1:  BCF    03.5
+01E2:  BTFSS  06.0
+....................              break; 
+01E3:  GOTO   1E5
+....................           } 
+01E4:  GOTO   1C5
+....................        } 
+....................  
+....................         return real_time_s(); 
+01E5:  CALL   0FA
+....................     } 
+01E6:  RETURN
+.................... } 
+....................  
+....................  
+
+Configuration Fuses:
+   Word  1: 3F71   XT NOWDT PUT BROWNOUT NOLVP NOCPD NOWRT NODEBUG NOPROTECT

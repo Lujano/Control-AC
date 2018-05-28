@@ -1,0 +1,55 @@
+
+ROM used:   924/1024 (90%)
+            924/1024 (90%) including unused fragments
+
+            1.4 Average locations per line
+            6.7 Average locations per statement
+
+RAM used:   33/68 (49%) at main() level
+            47/68 (69%) worst case
+
+Stack used: 4 worst case (3 in main + 1 for interrupts)
+Stack size: 8
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  268   137 100  source.c
+  404     0   0  C:\Program Files (x86)\PICC\Devices\16F84A.h
+----- -----
+  672   137 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     54   6    1   386  4.7  funcion_ext_int
+0     18   2    0    43  1.8  timer0
+0    424  46    4  2740  9.8  MAIN
+0     29   3    2             @ITOF
+0    117  13   13             @MULFF
+0     63   7   10             @FLT
+0     11   1    0             @goto10606
+0     68   7    0    39  2.0  real_time_s
+ Inline         4             @DTOF
+0      6   1    0    33  1.3  reset_timer
+0     76   8    5   333  4.8  medir_pulso
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               6
+    Statements              137
+    Comments                158
+    Volume (V)              4406
+    Difficulty (D)          25.6
+    Effort to implement (E) 112649
+    Time to implement (T)   1 hours, 44 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   23
+    Maintainability (MI)    135
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-00039    54  0  
+0003A-003FF   866  100  
+
+
+

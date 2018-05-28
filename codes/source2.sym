@@ -1,0 +1,104 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+015     CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @SCRATCH
+021     @SCRATCH
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     @INTERRUPT_AREA
+029     @INTERRUPT_AREA
+02A     @INTERRUPT_AREA
+02B     @INTERRUPT_AREA
+02C-02F time_H
+030-033 time_temp
+034.0   boton_activado
+034.1   state_chg
+035     time_on
+036     last_time_on
+037-03A tiempo_activo
+03B     state
+03C     last_state
+03D.0   medir_pulso.tiempo_agotado
+03D     MAIN.@SCRATCH1
+03E-041 @DTOF.P1
+03E     MAIN.@SCRATCH2
+03E     medir_pulso.@SCRATCH1
+03F     MAIN.@SCRATCH3
+03F     medir_pulso.@SCRATCH2
+040     MAIN.@SCRATCH4
+040     medir_pulso.@SCRATCH3
+041-042 @ITOF.P1
+041-044 @MULFF.P2
+041     medir_pulso.@SCRATCH4
+042-045 @FLT.P1
+045-048 @MULFF.P1
+046-049 @FLT.P1
+049     @MULFF.@SCRATCH1
+04A     @MULFF.@SCRATCH2
+04A     @FLT.@SCRATCH1
+04B     @MULFF.@SCRATCH3
+04B     @FLT.@SCRATCH2
+04C     @MULFF.@SCRATCH4
+04D     @MULFF.@SCRATCH5
+04E     funcion_ext_int.@SCRATCH1
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+000037  funcion_ext_int
+00006D  timer0
+00007F  reset_timer
+000085  @MULFF
+0000FA  real_time_s
+000102  @DTOF
+00013E  @ITOF
+00015C  @FLT
+00019B  medir_pulso
+0001E7  @cinit1
+0001E7  MAIN
+0001F5  @cinit2
+00033A  @goto10701
+
+Project Directory:
+    F:\Documentos\Projects\Proyectos\On-Off UPS\
+
+Project Files:
+    source2.c                                               [27-may.-18 16:47  CRC=884DE2E6]
+    C:\Program Files (x86)\PICC\Devices\16F873A.h           [12-nov.-13 14:35  CRC=4CB28E1D]
+
+Source signature=21B2FF20
+
+Units:
+    source2 (main)
+
+Compiler Settings:
+    Processor:      PIC16F873A
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   source2.xsym
+    Errors:      source2.err
+    Ext Symbols: source2.esym
+    INHX8:       source2.hex
+    Symbols:     source2.sym
+    List:        source2.lst
+    Debug/COFF:  source2.cof
+    Project:     source2.ccspjt
+    Call Tree:   source2.tre
+    Statistics:  source2.STA

@@ -1,0 +1,133 @@
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+//                             Control de Alimentaci贸n AC                     //
+//                Centro de Investigaci贸n y Tecnolog铆a Electr贸nica          //
+//                        (c) 2018 Luis Gabriel Lujano Chinchilla              //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+//             uControlador: PIC16F84A            Lenguaje: CCS C              //
+//                      Xtal: 4MHz                                             //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+#include <16F84A.h>
+#fuses XT, NOWDT
+#use delay (clock = 4000000)
+#use standard_io(b)
+
+ // Pines
+#define CONTROL     PIN_B1    //// Control del rel茅
+#define Green_LED   PIN_B2    //// Indicador de sistema encendido
+#define Red_LED     PIN_B3    //// Indicador de suspensi贸n de corriente
+#define Pulsador    PIN_B4    //// Pulsador de encendido y de ajuste de temporizaci贸n
+
+// Variables globales
+int32 time_H ; // Variable configurable para el temporizador
+float time_temp; // Variable temporal para calculos en punto flotante
+int1 boton_activado = 0;
+int16 time_on; // tiempo en minituos en el que el dispositivo permanece activo
+
+// Estados del sistema
+int8 estado;
+#define Counter 1 // El dispositivo cuenta hasta el tiempo configurado y se apaga
+#define ON 2
+#define OFF 3
+#define Ajuste_temp // Ajuste de temporizaci髇 echa por el usuario.
+
+
+
+/// Interrupciones ///
+#INT_EXT
+void funcion_ext_int(){
+    if (boton_activado == 0){ //Primera interrupci髇 por flanco de subida
+        set_timer0(0); // Reiniciar timer
+        while(get_timer0()< 50000){} // esperar 50 ms
+        if(input(Pulsador) == 1) { // Si el pulsador esta todavia activo,
+            boton_activado == 1;
+        }
+    }
+
+}
+
+
+
+#INT_TIMER0
+void timer0(){
+ time_H= time_H+1;
+ output_toggle(PIN_B5);
+ set_timer0(0); // Reiniciar timer
+}
+
+
+float real_time_s();
+float real_time_s();
+float real_time_m();
+void reset_timer();
+float medir_pulso();
+
+/// MAIN ///
+void main ()
+{
+
+    int8 timer; // Valor del timer1
+    float time;  // Tiempo de carga del capacitor
+   // Resistencias pull up ( b0)
+    
+  // Inicializacion
+     // Configuracion de Timer
+    setup_timer_0 (T0_DIV_256 ); // Modo= oscilador interno 4MHz, cuenta cada 8us
+    set_timer0(0); // Reiniciar timer
+    enable_interrupts(INT_TIMER0);
+      // Configuracion de la interrupci髇 externa
+    ext_int_edge(0, L_TO_H);    // Configurar para flanco de subida
+    enable_interrupts(int_ext); // Habilitaci髇 de interrupcion por RB0
+    
+    enable_interrupts(global);
+   
+    output_low(CONTROL); // cargar
+    output_high(Red_LED); // cargar
+    output_low(Green_LED); // cargar
+    //output_low(PIN_B4);
+        
+    while(1){
+        // Comienza el sistema apagado
+   
+  
+        while (real_time_m()< 0.5){
+        }
+    
+    reset_timer();
+     output_high(CONTROL); // cargar
+     output_low(Red_LED); // cargar
+     output_high(Green_LED); // cargar
+     
+      while (real_time_m()< 0.5){
+        }
+     reset_timer();
+     output_low(CONTROL); // cargar
+     output_high(Red_LED); // cargar
+     output_low(Green_LED); // cargar
+      
+    }
+  
+
+   
+}
+
+float real_time_s(){
+    time_temp = time_H*0.065536;// 65536.0/1000000.0
+    return time_temp;
+}
+
+float real_time_m(){  // Tiempo en minutos
+    time_temp= real_time_s()/60.0;
+    return time_temp;
+}
+   
+void reset_timer(){
+     time_H = 0; // Reiniciar el contador
+     set_timer0(0); // Reiniciar timer
+}
+
+
+

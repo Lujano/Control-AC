@@ -1,0 +1,244 @@
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+//                             Control de Alimentaci贸n AC                     //
+//                Centro de Investigaci贸n y Tecnolog铆a Electr贸nica          //
+//                        (c) 2018 Luis Gabriel Lujano Chinchilla              //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+//             uControlador: PIC16F84A            Lenguaje: CCS C              //
+//                      Xtal: 4MHz                                             //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
+#include <16F84A.h>
+#fuses XT, NOWDT
+#use delay (clock = 4000000)
+#use standard_io(b)
+
+ // Pines
+#define CONTROL     PIN_B4    //// Control del rel茅
+#define Green_LED   PIN_B2    //// Indicador de sistema encendido
+#define Red_LED     PIN_B3    //// Indicador de suspensi贸n de corriente
+#define Pulsador    PIN_B0    //// Pulsador de encendido y de ajuste de temporizaci贸n
+
+// Variables globales
+int32 time_H ; // Variable configurable para el temporizador
+float time_temp; // Variable temporal para calculos en punto flotante
+int1 boton_activado = 0;
+int8 time_on = 1; // tiempo en minituos en el que el dispositivo permanece activo
+int8 last_time_on = 1;
+float tiempo_activo ;
+
+// states del sistema
+int8 state;
+int8 last_state;
+int1 state_chg; // el estado del sistema ha cambiado
+#define CURRENT_ON 1 // El dispositivo cuenta hasta el tiempo configurado y se apaga
+#define ON 2
+#define OFF 3
+#define CONFIG 4 // Cambio de estado en funcion de la duracion del pulso
+#define WAIT 5
+#define CURRENT_OFF 6 // El dispositivo cuenta hasta el tiempo configurado y se apaga
+#define CONFIG_TEMP 7 //  Ajuste de temporizaci髇 echa por el usuario.
+
+
+/// Interrupciones ///
+#INT_EXT
+void funcion_ext_int(){
+output_toggle(PIN_B5);
+    if (boton_activado == 0){ //Primera interrupci髇 por flanco de subida
+        set_timer0(0); // Reiniciar timer
+        while(get_timer0()< 50000){} // esperar 50 ms
+        if(input(Pulsador) == 1 ) { // Si el pulsador esta todavia activo,
+            if(state == WAIT){
+                state = CURRENT_ON; // Cambiar directamente el estado
+            }
+            else if( state == CURRENT_ON  || state == CURRENT_OFF){
+                state = CONFIG;
+            }
+            else{ // Estado config o config temp
+                boton_activado = 1; // Analizar con la funcion medir pulso 
+            }
+            
+        }
+    }
+
+}
+
+
+
+#INT_TIMER0
+void timer0(){
+ time_H= time_H+1;
+ set_timer0(0); // Reiniciar timer
+}
+
+
+float real_time_s();
+float real_time_s();
+float real_time_m();
+void reset_timer();
+float medir_pulso();
+
+/// MAIN ///
+void main ()
+{
+    
+  // Inicializacion
+     // Configuracion de Timer
+    setup_timer_0 (T0_DIV_256 ); // Modo= oscilador interno 4MHz, cuenta cada 8us
+    set_timer0(0); // Reiniciar timer
+    enable_interrupts(INT_TIMER0);
+      // Configuracion de la interrupci髇 externa
+    ext_int_edge(0, L_TO_H);    // Configurar para flanco de subida
+    enable_interrupts(int_ext); // Habilitaci髇 de interrupcion por RB0
+    
+    enable_interrupts(global);
+   
+    output_low(CONTROL); // cargar
+    output_high(Red_LED); // cargar
+    output_low(Green_LED); // cargar
+    boton_activado = 0;
+    
+    state = OFF;
+    last_state = OFF;
+    //output_low(PIN_B4);
+        
+    while(1){
+        // Comienza el sistema apagado
+        switch(state){
+            case WAIT:
+                state = WAIT;
+            case OFF:
+                last_state = OFF;
+                output_low(CONTROL); // Desactivar rele
+                output_low(Red_LED); 
+                output_low(Green_LED); 
+                state = WAIT; // Esperar a que se cambie de estado
+                break;
+                
+           case CURRENT_ON:
+                last_state = CURRENT_ON;
+                reset_timer();
+                output_high(CONTROL);  // Activar rele
+                output_low(Red_LED); 
+                output_high(Green_LED);
+                while(real_time_m() < time_on*30.0){
+                    if(state!= CURRENT_ON){
+                    state_chg = 1;
+                    break;
+                    } // interrumpir estado, si este es cambiado
+                } // Esperar el tiempo configurado.
+
+                if (state_chg != 1){ // Si no se cambio el estado, volver al ciclo periodico
+                 state = CURRENT_OFF;
+                }
+                break;
+            case CURRENT_OFF:
+                last_state = CURRENT_OFF;
+                reset_timer();
+                output_low(CONTROL); // Desactivar rele
+                output_high(Red_LED); 
+                output_high(Green_LED); 
+                while(real_time_s() < 10.0){ // Se espera 10 segundos
+                    if(state !=  CURRENT_OFF){
+                        state_chg = 1;
+                        break;
+                    }
+                }
+
+                if (state_chg != 1){ // Si no se cambio el estado, volver al ciclo periodico
+                 state = CURRENT_ON;
+                }
+
+                break;
+
+           case CONFIG: // Estado en el que se mide el tiempo pulsado y se cambia el estado del sistema 
+                // Medir pulso
+                tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
+                if (tiempo_activo < 2){
+                    if (last_state == CURRENT_ON || last_state== CURRENT_OFF){
+                        state = OFF; // Apagar el dispositivo
+                    }
+
+                }
+                else{ // Si se pulsa durante mas de 2 segundos, entrar a la configuracion
+                    state = CONFIG_TEMP;
+                    last_time_on = time_on;
+                    time_on = 0; // Reiniciar el contador de pulsos
+                }
+
+                break;
+             case CONFIG_TEMP:
+                tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
+                if (tiempo_activo == 0 ) { // Si se dejo de pulsar durante 10 segundos 
+                    if (time_on == 0){  // nunca se pulso
+                        time_on = last_time_on; // Tomar la ultima configuracion
+                        
+                    }
+                    state  = CURRENT_ON; // De lo contrario se toma el time_on hasta ahora configurado
+                    
+                }
+                else if (tiempo_activo < 2 && tiempo_activo >0){
+                    time_on = time_on +1;
+                    state = CONFIG_TEMP; // Esperar el siguiente pulso
+                }
+                else{ // Si el tiempo pulsado es mayor
+                    if (time_on == 0){
+                        time_on = last_time_on; // Por defecto, si no se configura nada
+                                              // Se toma la ultima configuraci髇 tomada
+                    }
+                    state  = CURRENT_ON;
+
+                }
+
+                break;
+
+        }
+  
+     
+      
+    }
+  
+
+   
+}
+
+float real_time_s(){
+    time_temp = time_H*0.065536;// 65536.0/1000000.0
+    return time_temp;
+}
+
+float real_time_m(){  // Tiempo en minutos
+    time_temp= real_time_s()/60.0;
+    return time_temp;
+}
+   
+void reset_timer(){
+     time_H = 0; // Reiniciar el contador
+     set_timer0(0); // Reiniciar timer
+}
+
+float medir_pulso(){
+    int1 tiempo_agotado = 1;
+    reset_timer(); // Reiniciar timer
+    while(real_time_s()< 10.0)
+    {
+        if (boton_activado == 1){
+            tiempo_agotado = 0;
+            boton_activado = 0; // resetear el evento
+            break;
+        }
+    }
+    while (input(Pulsador) == 1){ // esperar el flanco de bajada del pulsador
+    }
+    if (tiempo_agotado == 1) // Si pasaron 10 segundos sin pulsar el interruptor
+    {
+        return 0.0; // Nunca se pulso
+    }
+    else{
+        return real_time_s();
+    }
+}
+
+
