@@ -1,9 +1,9 @@
 
-ROM used:   924/1024 (90%)
-            924/1024 (90%) including unused fragments
+ROM used:   944/1024 (92%)
+            944/1024 (92%) including unused fragments
 
             1.4 Average locations per line
-            6.7 Average locations per statement
+            6.6 Average locations per statement
 
 RAM used:   33/68 (49%) at main() level
             47/68 (69%) worst case
@@ -13,18 +13,18 @@ Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  268   137 100  source.c
+  274   142 100  source.c
   404     0   0  C:\Program Files (x86)\PICC\Devices\16F84A.h
 ----- -----
-  672   137 Total
+  678   142 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0     54   6    1   386  4.7  funcion_ext_int
 0     18   2    0    43  1.8  timer0
-0    424  46    4  2740  9.8  MAIN
+0    444  47    4  2921  9.8  MAIN
 0     29   3    2             @ITOF
-0    117  13   13             @MULFF
+0    117  12   13             @MULFF
 0     63   7   10             @FLT
 0     11   1    0             @goto10606
 0     68   7    0    39  2.0  real_time_s
@@ -35,21 +35,21 @@ Page ROM  %  RAM   Vol Diff  Functions:
 
 Program metrics:
     Functions               6
-    Statements              137
+    Statements              142
     Comments                158
-    Volume (V)              4406
-    Difficulty (D)          25.6
-    Effort to implement (E) 112649
-    Time to implement (T)   1 hours, 44 minutes
+    Volume (V)              4597
+    Difficulty (D)          25.7
+    Effort to implement (E) 117997
+    Time to implement (T)   1 hours, 49 minutes
     Est Delivered Bugs (B)  1
     Cyclomatic Complexity   23
-    Maintainability (MI)    135
+    Maintainability (MI)    134
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
 00004-00039    54  0  
-0003A-003FF   866  100  
+0003A-003FF   886  80  
 
 
 

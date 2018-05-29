@@ -121,7 +121,6 @@ void main ()
                 output_low(CONTROL); // Desactivar rele
                 output_low(Red_LED); 
                 output_low(Green_LED); 
-                output_low(Yellow_LED); 
                 state = WAIT; // Esperar a que se cambie de estado
                 break;
                 
@@ -130,7 +129,6 @@ void main ()
                 reset_timer();
                 output_high(CONTROL);  // Activar rele
                 output_low(Red_LED); 
-                output_low(Yellow_LED); 
                 output_high(Green_LED);
                 time_on = read_eeprom(0);
                 while(real_time_s() < time_on*3.0){
@@ -152,7 +150,6 @@ void main ()
                 reset_timer();
                 output_low(CONTROL); // Desactivar rele
                 output_high(Red_LED); 
-                output_low(Yellow_LED); 
                 output_high(Green_LED); 
                 while(real_time_s() < 5.0){ // Se espera 10 segundos
                     if(state !=  CURRENT_OFF){
@@ -189,9 +186,7 @@ void main ()
 
                 break;
              case CONFIG_TEMP:
-                output_high(Yellow_LED); 
                 output_high(Red_LED); 
-                output_low(Green_LED); 
                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
                 if (tiempo_activo == 0.0 ) { // Si se dejo de pulsar durante 10 segundos 
                     if (time_on == 0){  // nunca se pulso

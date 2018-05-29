@@ -17,9 +17,9 @@
 #rom 0x2100 = {0x01}
  // Pines
 #define CONTROL     PIN_B4    //// Control del rel√©
-#define Green_LED   PIN_B3    //// Indicador de sistema encendido
-#define Yellow_LED  PIN_B2    //// Indicador de sistema encendido
-#define Red_LED     PIN_B1    //// Indicador de suspensi√≥n de corriente
+#define Green_LED   PIN_B2    //// Indicador de sistema encendido
+#define Yellow_LED   PIN_B2    //// Indicador de sistema encendido
+#define Red_LED     PIN_B3    //// Indicador de suspensi√≥n de corriente
 #define Pulsador    PIN_B0    //// Pulsador de encendido y de ajuste de temporizaci√≥n
 
 // Variables globales
@@ -50,7 +50,7 @@ output_toggle(PIN_B5);
     if (boton_activado == 0){ //Primera interrupciÛn por flanco de subida
         set_timer0(0);
         while(get_timer0()< 150){}; // Esperar un tiempo 
-        if(input(Pulsador) == 0 ) { // Si el pulsador esta todavia activo,
+        if(input(Pulsador) == 1 ) { // Si el pulsador esta todavia activo,
             if(state == WAIT){
                 state = CURRENT_ON; // Cambiar directamente el estado
                 output_toggle(PIN_B6);
@@ -93,7 +93,7 @@ void main ()
     set_timer0(0); // Reiniciar timer
     enable_interrupts(INT_TIMER0);
       // Configuracion de la interrupciÛn externa
-    ext_int_edge(0, H_TO_L);    // Configurar para flanco de bajada
+    ext_int_edge(0, L_TO_H);    // Configurar para flanco de subida
     enable_interrupts(int_ext); // HabilitaciÛn de interrupcion por RB0
     
     enable_interrupts(global);
@@ -121,7 +121,6 @@ void main ()
                 output_low(CONTROL); // Desactivar rele
                 output_low(Red_LED); 
                 output_low(Green_LED); 
-                output_low(Yellow_LED); 
                 state = WAIT; // Esperar a que se cambie de estado
                 break;
                 
@@ -130,7 +129,6 @@ void main ()
                 reset_timer();
                 output_high(CONTROL);  // Activar rele
                 output_low(Red_LED); 
-                output_low(Yellow_LED); 
                 output_high(Green_LED);
                 time_on = read_eeprom(0);
                 while(real_time_s() < time_on*3.0){
@@ -152,7 +150,6 @@ void main ()
                 reset_timer();
                 output_low(CONTROL); // Desactivar rele
                 output_high(Red_LED); 
-                output_low(Yellow_LED); 
                 output_high(Green_LED); 
                 while(real_time_s() < 5.0){ // Se espera 10 segundos
                     if(state !=  CURRENT_OFF){
@@ -189,9 +186,7 @@ void main ()
 
                 break;
              case CONFIG_TEMP:
-                output_high(Yellow_LED); 
                 output_high(Red_LED); 
-                output_low(Green_LED); 
                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
                 if (tiempo_activo == 0.0 ) { // Si se dejo de pulsar durante 10 segundos 
                     if (time_on == 0){  // nunca se pulso
@@ -261,7 +256,7 @@ float medir_pulso(){
     }
     else{ // Se pulso
        while(real_time_s()< 5.0){ // Pulso de duracion maxima de 5 segundos
-          if (input(Pulsador) == 1){ // esperar el flanco de subida del pulsador
+          if (input(Pulsador) == 0){ // esperar el flanco de bajada del pulsador
              break;
           }
        }

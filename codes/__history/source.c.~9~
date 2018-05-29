@@ -191,7 +191,6 @@ void main ()
              case CONFIG_TEMP:
                 output_high(Yellow_LED); 
                 output_high(Red_LED); 
-                output_low(Green_LED); 
                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
                 if (tiempo_activo == 0.0 ) { // Si se dejo de pulsar durante 10 segundos 
                     if (time_on == 0){  // nunca se pulso

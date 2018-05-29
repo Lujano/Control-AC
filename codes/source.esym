@@ -1,7 +1,7 @@
-D G "__PCM__" 0 269 ""5.015""
-D G "__DEVICE__" 0 269 "84"
-D G "__DATE__" 0 269 ""27-may.-18""
-D G "__TIME__" 0 269 ""17:20:36"" "Control de Alimentaci贸n AC                     //"
+D G "__PCM__" 0 275 ""5.015""
+D G "__DEVICE__" 0 275 "84"
+D G "__DATE__" 0 275 ""29-may.-18""
+D G "__TIME__" 0 275 ""13:01:54"" "Control de Alimentaci贸n AC                     //"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 v L "value" 1 35 "int8" `53 
 f B "set_tris_a" 1 35 "void(int8 value)" `52 
@@ -526,43 +526,44 @@ d G "INT_EXT" 1 399 "0x000B10"
 d G "INT_EEPROM" 1 400 "0x000B40"
 d G "INT_TIMER0" 1 401 "0x000B20"
 D G "CONTROL" 0 19 "PIN_B4" "Control del rel茅"
-D G "Green_LED" 0 20 "PIN_B2" "Indicador de sistema encendido"
-D G "Red_LED" 0 21 "PIN_B3" "Indicador de suspensi贸n de corriente"
-D G "Pulsador" 0 22 "PIN_B0" "Pulsador de encendido y de ajuste de temporizaci贸n"
+D G "Green_LED" 0 20 "PIN_B3" "Indicador de sistema encendido"
+D G "Yellow_LED" 0 21 "PIN_B2" "Indicador de sistema encendido"
+D G "Red_LED" 0 22 "PIN_B1" "Indicador de suspensi贸n de corriente"
+D G "Pulsador" 0 23 "PIN_B0" "Pulsador de encendido y de ajuste de temporizaci贸n"
 C L "jump_to_irs" 0 18 1 "FUNCTION"
-V G "time_H" 0 25 "int32" `501  "Variable configurable para el temporizador"
-V G "time_temp" 0 26 "float" `502  "Variable temporal para calculos en punto flotante"
-V G "boton_activado" 0 27 "int1" `503 
-V G "time_on" 0 28 "int8" `504 
+V G "time_H" 0 26 "int32" `501  "Variable configurable para el temporizador"
+V G "time_temp" 0 27 "float" `502  "Variable temporal para calculos en punto flotante"
+V G "boton_activado" 0 28 "int1" `503 
+V G "time_on" 0 29 "int8" `504 
 C L "jump_to_irs" 0 18 1 "FUNCTION"
-V G "last_time_on" 0 29 "int8" `505 
-V G "tiempo_activo" 0 30 "float" `506  "states del sistema"
-V G "state" 0 33 "int8" `507 
-V G "last_state" 0 34 "int8" `508 
-V G "state_chg" 0 35 "int1" `509  "el estado del sistema ha cambiado"
-D G "CURRENT_ON" 0 36 "1" "El dispositivo cuenta hasta el tiempo configurado y se apaga"
-D G "ON" 0 37 "2"
-D G "OFF" 0 38 "3"
-D G "CONFIG" 0 39 "4" "Cambio de estado en funcion de la duracion del pulso"
-D G "WAIT" 0 40 "5"
-D G "CURRENT_OFF" 0 41 "6" "El dispositivo cuenta hasta el tiempo configurado y se apaga"
-D G "CONFIG_TEMP" 0 42 "7" "Ajuste de temporizaci髇 echa por el usuario."
+V G "last_time_on" 0 30 "int8" `505 
+V G "tiempo_activo" 0 31 "float" `506  "states del sistema"
+V G "state" 0 34 "int8" `507 
+V G "last_state" 0 35 "int8" `508 
+V G "state_chg" 0 36 "int1" `509  "el estado del sistema ha cambiado"
+D G "CURRENT_ON" 0 37 "1" "El dispositivo cuenta hasta el tiempo configurado y se apaga"
+D G "ON" 0 38 "2"
+D G "OFF" 0 39 "3"
+D G "CONFIG" 0 40 "4" "Cambio de estado en funcion de la duracion del pulso"
+D G "WAIT" 0 41 "5"
+D G "CURRENT_OFF" 0 42 "6" "El dispositivo cuenta hasta el tiempo configurado y se apaga"
+D G "CONFIG_TEMP" 0 43 "7" "Ajuste de temporizaci髇 echa por el usuario."
 C L "jump_to_irs" 0 18 1 "FUNCTION"
-F G "funcion_ext_int" 0 47 "void()" `510 
+F G "funcion_ext_int" 0 48 "void()" `510 
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
-F G "timer0" 0 73 "void()" `511 
+F G "timer0" 0 74 "void()" `511 
 C L "timer0" 0 18 1 "FUNCTION"
-f G "real_time_s" 0 79 "float()" `512 
 f G "real_time_s" 0 80 "float()" `512 
-f G "real_time_m" 0 81 "float()" `513 
-f G "reset_timer" 0 82 "void()" `514 
-f G "medir_pulso" 0 83 "float()" `515  "/ MAIN ///"
-F G "MAIN" 0 87 "void()" `516  "Inicializacion"
+f G "real_time_s" 0 81 "float()" `512 
+f G "real_time_m" 0 82 "float()" `513 
+f G "reset_timer" 0 83 "void()" `514 
+f G "medir_pulso" 0 84 "float()" `515  "/ MAIN ///"
+F G "MAIN" 0 88 "void()" `516  "Inicializacion"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
@@ -598,14 +599,14 @@ C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
-F G "real_time_s" 0 225 "float()" `512 
+F G "real_time_s" 0 231 "float()" `512 
 C L "real_time_s" 0 18 1 "FUNCTION"
-F G "real_time_m" 0 230 "float()" `513  "Tiempo en minutos"
-F G "reset_timer" 0 235 "void()" `514 
+F G "real_time_m" 0 236 "float()" `513  "Tiempo en minutos"
+F G "reset_timer" 0 241 "void()" `514 
 C L "reset_timer" 0 18 1 "FUNCTION"
 C L "reset_timer" 0 18 1 "FUNCTION"
-F G "medir_pulso" 0 240 "float()" `515 
-V L "tiempo_agotado" 0 241 "int1" `533 
+F G "medir_pulso" 0 246 "float()" `515 
+V L "tiempo_agotado" 0 247 "int1" `533 
 C L "medir_pulso" 0 18 1 "FUNCTION"
 C L "medir_pulso" 0 18 1 "FUNCTION"
 C L "medir_pulso" 0 18 1 "FUNCTION"
