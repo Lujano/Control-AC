@@ -1,7 +1,7 @@
-D G "__PCM__" 0 275 ""5.015""
-D G "__DEVICE__" 0 275 "84"
-D G "__DATE__" 0 275 ""29-may.-18""
-D G "__TIME__" 0 275 ""13:01:54"" "Control de Alimentación AC                     //"
+D G "__PCM__" 0 268 ""5.015""
+D G "__DEVICE__" 0 268 "84"
+D G "__DATE__" 0 268 ""30-may.-18""
+D G "__TIME__" 0 268 ""08:49:17"" "Control de Alimentación AC                     //"
 c L "set_tris_a" 1 1 6 "FUNCTION"
 v L "value" 1 35 "int8" `53 
 f B "set_tris_a" 1 35 "void(int8 value)" `52 
@@ -558,12 +558,10 @@ C L "funcion_ext_int" 0 18 1 "FUNCTION"
 C L "funcion_ext_int" 0 18 1 "FUNCTION"
 F G "timer0" 0 74 "void()" `511 
 C L "timer0" 0 18 1 "FUNCTION"
-f G "real_time_s" 0 80 "float()" `512 
-f G "real_time_s" 0 81 "float()" `512 
-f G "real_time_m" 0 82 "float()" `513 
-f G "reset_timer" 0 83 "void()" `514 
-f G "medir_pulso" 0 84 "float()" `515  "/ MAIN ///"
-F G "MAIN" 0 88 "void()" `516  "Inicializacion"
+f G "real_time_m" 0 79 "float()" `512 
+f G "reset_timer" 0 80 "void()" `513 
+f G "medir_pulso" 0 81 "float()" `514  "/ MAIN ///"
+F G "MAIN" 0 85 "void()" `515  "Inicializacion"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
@@ -599,14 +597,12 @@ C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
 C L "MAIN" 0 18 1 "FUNCTION"
-F G "real_time_s" 0 231 "float()" `512 
-C L "real_time_s" 0 18 1 "FUNCTION"
-F G "real_time_m" 0 236 "float()" `513  "Tiempo en minutos"
-F G "reset_timer" 0 241 "void()" `514 
+F G "real_time_m" 0 229 "float()" `512  "Tiempo en minutos"
+F G "reset_timer" 0 234 "void()" `513 
 C L "reset_timer" 0 18 1 "FUNCTION"
 C L "reset_timer" 0 18 1 "FUNCTION"
-F G "medir_pulso" 0 246 "float()" `515 
-V L "tiempo_agotado" 0 247 "int1" `533 
+F G "medir_pulso" 0 239 "float()" `514 
+V L "tiempo_agotado" 0 240 "int1" `529 
 C L "medir_pulso" 0 18 1 "FUNCTION"
 C L "medir_pulso" 0 18 1 "FUNCTION"
 C L "medir_pulso" 0 18 1 "FUNCTION"

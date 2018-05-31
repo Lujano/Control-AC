@@ -1,30 +1,30 @@
 ÀÄsource
-   ÃÄMAIN  0/444  Ram=4
+   ÃÄMAIN  0/452  Ram=4
    ³  ÃÄ@cinit1  (Inline)  Ram=0
-   ³  ÃÄ@goto10606  0/11  Ram=0
+   ³  ÃÄ@goto10602  0/11  Ram=0
    ³  ÃÄreset_timer  0/6  Ram=0
-   ³  ÃÄreal_time_s  0/68  Ram=0
+   ³  ÃÄreal_time_m  0/68  Ram=0
    ³  ³  ÃÄ@DTOF  (Inline)  Ram=4
    ³  ³  ÀÄ@MULFF  0/117  Ram=13
    ³  ÃÄ@ITOF  0/29  Ram=2
    ³  ÃÄ@MULFF  0/117  Ram=13
    ³  ÃÄ@FLT  0/63  Ram=10
    ³  ÃÄreset_timer  0/6  Ram=0
-   ³  ÃÄreal_time_s  0/68  Ram=0
+   ³  ÃÄreal_time_m  0/68  Ram=0
    ³  ³  ÀÄ*
    ³  ÃÄ@FLT  0/63  Ram=10
-   ³  ÃÄmedir_pulso  0/76  Ram=5
+   ³  ÃÄmedir_pulso  0/80  Ram=5
    ³  ³  ÃÄreset_timer  0/6  Ram=0
-   ³  ³  ÃÄreal_time_s  0/68  Ram=0
+   ³  ³  ÃÄreal_time_m  0/68  Ram=0
    ³  ³  ³  ÀÄ*
    ³  ³  ÃÄ@FLT  0/63  Ram=10
-   ³  ³  ÃÄreal_time_s  0/68  Ram=0
+   ³  ³  ÃÄreal_time_m  0/68  Ram=0
    ³  ³  ³  ÀÄ*
    ³  ³  ÃÄ@FLT  0/63  Ram=10
-   ³  ³  ÀÄreal_time_s  0/68  Ram=0
+   ³  ³  ÀÄreal_time_m  0/68  Ram=0
    ³  ³     ÀÄ*
    ³  ÃÄ@FLT  0/63  Ram=10
-   ³  ÃÄmedir_pulso  0/76  Ram=5
+   ³  ÃÄmedir_pulso  0/80  Ram=5
    ³  ³  ÀÄ*
    ³  ÃÄ@FLT  0/63  Ram=10
    ³  ÃÄ@FLT  0/63  Ram=10

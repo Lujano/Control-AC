@@ -130,7 +130,7 @@ void main ()
                 output_low(Yellow_LED); 
                 output_high(Green_LED);
                 time_on = read_eeprom(0);
-                while(real_time_m() < time_on*30.0){
+                while(real_time_m() < time_on*30){
                     if(state!= CURRENT_ON){
                     state_chg = 1;
                     break;
@@ -151,7 +151,7 @@ void main ()
                 output_high(Red_LED); 
                 output_low(Yellow_LED); 
                 output_high(Green_LED); 
-                while(real_time_m() < 0.2){ // Se espera 12 segundos
+                while(real_time_m() < 0.05){ // Se espera 12 segundos
                     if(state !=  CURRENT_OFF){
                         state_chg = 1;
                         break;
@@ -171,7 +171,7 @@ void main ()
            case CONFIG: // Estado en el que se mide el tiempo pulsado y se cambia el estado del sistema 
                 // Medir pulso
                 tiempo_activo = medir_pulso(); // Tiempo activo el pulsador, en segundos
-                if (tiempo_activo < 0.05){
+                if (tiempo_activo < 0.2){ // 12 segundos
                     if ((last_state == CURRENT_ON ) | (last_state== CURRENT_OFF)){
                         state = OFF; // Apagar el dispositivo
                     }

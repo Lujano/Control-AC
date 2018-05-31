@@ -130,7 +130,7 @@ void main ()
                 output_low(Yellow_LED); 
                 output_high(Green_LED);
                 time_on = read_eeprom(0);
-                while(real_time_m() < time_on*30.0){
+                while(real_time_m() < 0.1){
                     if(state!= CURRENT_ON){
                     state_chg = 1;
                     break;
@@ -151,7 +151,7 @@ void main ()
                 output_high(Red_LED); 
                 output_low(Yellow_LED); 
                 output_high(Green_LED); 
-                while(real_time_m() < 0.2){ // Se espera 12 segundos
+                while(real_time_m() < 0.1){ // Se espera 10 segundos
                     if(state !=  CURRENT_OFF){
                         state_chg = 1;
                         break;
@@ -199,7 +199,7 @@ void main ()
                     state  = CURRENT_ON; // De lo contrario se toma el time_on hasta ahora configurado
                     
                 }
-                else if ((tiempo_activo < 0.08) & (tiempo_activo >0.0)){
+                else if ((tiempo_activo < 0.05) & (tiempo_activo >0.0)){
                     time_on = time_on +1;
                     write_eeprom(0, time_on);
                     state = CONFIG_TEMP; // Esperar el siguiente pulso

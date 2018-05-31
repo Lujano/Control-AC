@@ -199,7 +199,7 @@ void main ()
                     state  = CURRENT_ON; // De lo contrario se toma el time_on hasta ahora configurado
                     
                 }
-                else if ((tiempo_activo < 0.08) & (tiempo_activo >0.0)){
+                else if ((tiempo_activo < 0.05) & (tiempo_activo >0.0)){
                     time_on = time_on +1;
                     write_eeprom(0, time_on);
                     state = CONFIG_TEMP; // Esperar el siguiente pulso

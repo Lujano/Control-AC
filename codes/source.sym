@@ -31,8 +31,8 @@
 02B     medir_pulso.@SCRATCH2
 02C     MAIN.@SCRATCH4
 02C     medir_pulso.@SCRATCH3
-02D-02E @ITOF.P1
-02D-030 @MULFF.P2
+02D-030 @MULFF.P1
+02D-02E @ITOF.P2
 02D     medir_pulso.@SCRATCH4
 02E-031 @FLT.P1
 031-034 @MULFF.P1
@@ -51,24 +51,24 @@ ROM Allocation:
 000070  timer0
 000082  reset_timer
 000088  @MULFF
-0000FD  real_time_s
+0000FD  real_time_m
 000105  @DTOF
 000141  @ITOF
 00015E  @FLT
 00019D  medir_pulso
-0001E9  MAIN
-0001E9  @cinit1
-0001F0  @cinit2
-0003A5  @goto10606
+0001ED  @cinit1
+0001ED  MAIN
+0001F4  @cinit2
+0003B1  @goto10602
 
 Project Directory:
     F:\GitHub\Control-AC\codes\
 
 Project Files:
-    source.c                                                [29-may.-18 13:01  CRC=65996DA7]
+    source.c                                                [30-may.-18 08:49  CRC=42C2E9AF]
     C:\Program Files (x86)\PICC\Devices\16F84A.h            [12-nov.-13 14:34  CRC=4E09ACDB]
 
-Source signature=01ACC75D
+Source signature=DED64365
 
 Units:
     source (main)
